@@ -23,10 +23,15 @@ public class ResultSetTableModelFactory {
 	// Look up the JDBC driver by class name.  When the class loads, it
 	// automatically registers itself with the DriverManager used in
 	// the next step.
-	Class driver = Class.forName(driverClassName);
+//	Class driver = Class.forName(driverClassName);
 
 	// Now use that driver to connect to the database
-	connection = DriverManager.getConnection(dbname, username, password);
+//	connection = DriverManager.getConnection(dbname, username, password);
+    }
+    public ResultSetTableModelFactory(Connection c)
+            throws ClassNotFoundException, SQLException
+    {
+        connection = c;
     }
 
     /**
@@ -39,7 +44,9 @@ public class ResultSetTableModelFactory {
     {
 	// If we've called close(), then we can't call this method
 	if (connection == null)
+        {
 	    throw new IllegalStateException("Connection already closed.");
+        }
 
 	// Create a Statement object that will be used to excecute the query.
 	// The arguments specify that the returned ResultSet will be 

@@ -10,6 +10,16 @@ public class Cart {
     public int _id;
     protected List<Book> books = new ArrayList();
     
+    public double currentTotal()
+    {
+        double total = 0;
+        for (Book b : books)
+        {
+            total += b._price;
+        }
+        return total;
+    }
+    
     public void addToCart(Book b)
     {
         books.add(b);

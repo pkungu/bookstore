@@ -1,5 +1,6 @@
 package bookstore;
 import java.sql.*;
+import javax.swing.*;
 
 /**
  *
@@ -7,6 +8,12 @@ import java.sql.*;
  */
 public class BookstoreManagerComp {
 
+    // Cart.
+    protected Cart cart = new Cart();
+    
+    // Model factory for result set.
+    ResultSetTableModelFactory factory;
+    
     // MySQL stuff.
     protected Connection _connection = null;
     protected Statement _statement = null;
@@ -21,10 +28,38 @@ public class BookstoreManagerComp {
     // Connection monitoring stuff.
     private boolean isTransacting = false;
     
+    /**
+     * Constructor.
+     **/
+    public BookstoreManagerComp()
+    {
+        InitializeConnection();
+    }    
+    
     //
     //  Querying Methods
     //
     
+    public void queryTest(JTable j)
+    {
+        try
+        {
+            j.setModel(factory.getResultSetTableModel("select * from `books`"));
+        }
+        catch (SQLException ex) {}
+//        ResultSetTableModel table = null;
+//        String query = "select * from `books`";
+//        try 
+//        {
+//            table = factory.getResultSetTableModel(query);
+//            return table;
+//        }
+//        catch (SQLException ex) { }
+//        finally
+//        {
+//            return table;
+//        }
+    }
     
     //
     //  Connection Management Methods
@@ -45,10 +80,18 @@ public class BookstoreManagerComp {
             { System.out.println("Successfully connected to the database."); }
         } 
         catch(Exception e) { System.out.println("Could not connect to database."); }
+        finally
+        {
+            try
+            {
+                factory = new ResultSetTableModelFactory(_connection);
+            }
+            catch (ClassNotFoundException | SQLException ex) {}
+        }
     }
     
     /**
-     * Similiar situation to the method above.
+     * Similar situation to the method above.
      **/
     public void TerminateConnection()
     {
@@ -76,6 +119,7 @@ public class BookstoreManagerComp {
         }
         catch (Exception e) { System.out.println("Error in closing the connection."); }
     }
+    
     
     //
     //
