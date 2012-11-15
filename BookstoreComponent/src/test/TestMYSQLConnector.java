@@ -3,6 +3,12 @@ import java.sql.*;
 
 public class TestMYSQLConnector {
 
+    /**
+     * Just a test class to see if the database and MySQL driver is set up
+     * correctly. Be sure to have the MySQL driver installed and the class paths
+     * set to the driver location, and make sure this all corresponds to the Java
+     * JDK version you will be using!
+     **/
   public static void main(String args[]) {
     Connection con = null;
 

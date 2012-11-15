@@ -21,10 +21,20 @@ public class BookstoreManagerComp {
     // Connection monitoring stuff.
     private boolean isTransacting = false;
     
+    //
+    //  Querying Methods
+    //
+    
     
     //
     //  Connection Management Methods
     //
+    
+    /**
+     * Method to initialize the connection to the database. May not be needed
+     * in the actual manager class, probably in the ResultSet factory--
+     * come back and re-examine this. May need to be moved.
+     **/
     public void InitializeConnection()
     {
         try 
@@ -37,6 +47,9 @@ public class BookstoreManagerComp {
         catch(Exception e) { System.out.println("Could not connect to database."); }
     }
     
+    /**
+     * Similiar situation to the method above.
+     **/
     public void TerminateConnection()
     {
         try 
