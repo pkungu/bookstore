@@ -3,11 +3,6 @@ import java.sql.*;
 import javax.swing.table.*;
 
 /**
- *
- * @author Cory
- */
-
-/**
  * This class encapsulates a JDBC database connection and, given a SQL query
  * as a string, returns a ResultSetTableModel object suitable for display
  * in a JTable Swing component
@@ -23,11 +18,13 @@ public class ResultSetTableModelFactory {
 	// Look up the JDBC driver by class name.  When the class loads, it
 	// automatically registers itself with the DriverManager used in
 	// the next step.
-//	Class driver = Class.forName(driverClassName);
+	Class driver = Class.forName(driverClassName);
 
 	// Now use that driver to connect to the database
-//	connection = DriverManager.getConnection(dbname, username, password);
+	connection = DriverManager.getConnection(dbname, username, password);
     }
+    
+    /** ... or just give the connection from the manager. */
     public ResultSetTableModelFactory(Connection c)
             throws ClassNotFoundException, SQLException
     {
@@ -61,15 +58,16 @@ public class ResultSetTableModelFactory {
     }
 
     /** 
-     * Call this method when done with the factory to close the DB connection 
+     * Call this method when done with the factory to close the DB connection
+     * May not be needed because we're writing a manager.
      **/
     public void close() {
 	try { connection.close(); } // Try to close the connection
 	catch (Exception e) {}      // Do nothing on error. At least we tried.
 	connection = null; 
     }
-
-    /** Automatically close the connection when we're garbage collected */
-    protected void finalize() { close(); }
+//
+//    /** Automatically close the connection when we're garbage collected */
+//    protected void finalize() { close(); }
 }
 

@@ -1,10 +1,6 @@
 package bookstore;
 import java.util.*;
 
-/**
- *
- * @author Cory
- */
 public class Cart {
     
     public int _id;

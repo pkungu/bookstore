@@ -4,11 +4,6 @@ import javax.swing.table.*;
 import javax.swing.event.*;
 
 /**
- *
- * @author Cory
- */
-
-/**
  * This class takes a JDBC ResultSet object and implements the TableModel
  * interface in terms of it so that a Swing JTable component can display the
  * contents of the ResultSet.  Note that it requires a scrollable JDBC 2.0 
@@ -43,7 +38,7 @@ public class ResultSetTableModel implements TableModel {
     }
 
     /** Automatically close when we're garbage collected */
-    protected void finalize() { close(); }
+//    protected void finalize() { close(); }
 
     // These two TableModel methods return the size of the table
     public int getColumnCount() { return numcols; }

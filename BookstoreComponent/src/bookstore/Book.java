@@ -1,9 +1,5 @@
 package bookstore;
 
-/**
- *
- * @author Cory
- */
 public class Book {
     public int _id;
     public String _isbn;
