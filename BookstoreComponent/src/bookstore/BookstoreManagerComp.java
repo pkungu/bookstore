@@ -8,10 +8,6 @@ public class BookstoreManagerComp {
     protected Cart cart = new Cart();
     public Cart Cart() { return cart; }
     
-    // Model factory for result set.
-    protected ResultSetTableModelFactory factory;
-    public ResultSetTableModelFactory Factory() { return factory; }
-    
     // MySQL stuff.
     protected Connection _connection = null;
     protected Statement _statement = null;
@@ -31,42 +27,28 @@ public class BookstoreManagerComp {
      **/
     public BookstoreManagerComp()
     {
-        Initialize();
-    }
-    
-    public void Initialize()
-    {
         InitializeConnection();
-        try 
-        {
-            factory = new ResultSetTableModelFactory(_connection);
-        }
-        catch (ClassNotFoundException | SQLException ex) { System.out.println("Initialization failed.");}
     }
-    
+
     //
     //  Querying Methods
     //
     
-    public void QueryTest(JTable j)
+    public void QueryAllBooks(JTable j)
     {
         try
         {
-            j.setModel(factory.getResultSetTableModel("select * from `books`"));
+            j.setModel(getResultSetTableModel("select * from `books`"));
         }
         catch (SQLException ex) {}
     }
-    
-    
     
     //
     //  Connection Management Methods
     //
     
     /**
-     * Method to initialize the connection to the database. May not be needed
-     * in the actual manager class, probably in the ResultSet factory--
-     * come back and re-examine this. May need to be moved.
+     * Method to initialize the connection to the database.
      **/
     private void InitializeConnection()
     {
@@ -84,18 +66,10 @@ public class BookstoreManagerComp {
         catch (ClassNotFoundException ex) { System.out.println("Couldn't find the driver."); }
         catch (SQLException ex) { System.out.println("SQL Exception."); }
         catch (Exception ex) { System.out.println("Driver Exception."); }
-        finally
-        {
-            try
-            {
-                factory = new ResultSetTableModelFactory(_connection);
-            }
-            catch (ClassNotFoundException | SQLException ex) { System.out.println("Exception at the end of InitializeConnection."); }
-        }
     }
     
     /**
-     * Similar situation to the method above.
+     * Terminate.
      **/
     private void TerminateConnection()
     {
@@ -124,8 +98,27 @@ public class BookstoreManagerComp {
         catch (Exception e) { System.out.println("Error in closing the connection."); }
     }
     
-    
     //
+    // Handle generation of our custom TableModel
     //
-    //
+    private ResultSetTableModel getResultSetTableModel(String query)
+        throws SQLException
+    {
+	// If we've called close(), then we can't call this method
+	if (_connection == null)
+        {
+	    throw new IllegalStateException("Connection already closed.");
+        }
+
+	// Create a Statement object that will be used to excecute the query.
+	// The arguments specify that the returned ResultSet will be 
+	// scrollable, read-only, and insensitive to changes in the db.
+	Statement statement =
+	    _connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+				       ResultSet.CONCUR_READ_ONLY);
+	// Run the query, creating a ResultSet
+	ResultSet r = statement.executeQuery(query);
+	// Create and return a TableModel for the ResultSet
+	return new ResultSetTableModel(r);
+    }
 }

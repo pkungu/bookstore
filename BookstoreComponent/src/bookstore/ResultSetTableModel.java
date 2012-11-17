@@ -14,12 +14,7 @@ public class ResultSetTableModel implements TableModel {
     ResultSetMetaData metadata;    // Additional information about the results
     int numcols, numrows;          // How many rows and columns in the table
 
-    /**
-     * This constructor creates a TableModel from a ResultSet.  It is package
-     * private because it is only intended to be used by 
-     * ResultSetTableModelFactory, which is what you should use to obtain a
-     * ResultSetTableModel
-     **/
+    // Private constructor so that nothing else can use it but itself.
     ResultSetTableModel(ResultSet results) throws SQLException {
 	this.results = results;                 // Save the results
 	metadata = results.getMetaData();       // Get metadata on them
@@ -37,9 +32,6 @@ public class ResultSetTableModel implements TableModel {
 	catch(SQLException e) {};
     }
 
-    /** Automatically close when we're garbage collected */
-//    protected void finalize() { close(); }
-
     // These two TableModel methods return the size of the table
     public int getColumnCount() { return numcols; }
     public int getRowCount() { return numrows; }
@@ -51,18 +43,8 @@ public class ResultSetTableModel implements TableModel {
 	} catch (SQLException e) { return e.toString(); }
     }
 
-    // This TableModel method specifies the data type for each column.  
-    // We could map SQL types to Java types, but for this example, we'll just
-    // convert all the returned data to strings.
     public Class getColumnClass(int column) { return String.class; }
     
-    /**
-     * This is the key method of TableModel: it returns the value at each cell
-     * of the table.  We use strings in this case.  If anything goes wrong, we
-     * return the exception as a string, so it will be displayed in the table.
-     * Note that SQL row and column numbers start at 1, but TableModel column
-     * numbers start at 0.
-     **/
     public Object getValueAt(int row, int column) {
 	try {
 	    results.absolute(row+1);                // Go to the specified row
