@@ -5,7 +5,10 @@
 package client;
 import javax.swing.*;
 import bookstore.*;
+import java.util.List;
 import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -86,17 +89,19 @@ public class DesktopApplication extends JFrame {
 
             },
             new String [] {
-                "ID", "ISBN", "Title", "Publisher", "Authors", "Quantity", "Price", ""
+                "ID", "ISBN", "Title", "Publisher", "Authors", "Quantity", "Price"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        table_cart.getTableHeader().setResizingAllowed(false);
+        table_cart.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(table_cart);
         table_cart.getColumnModel().getColumn(0).setResizable(false);
         table_cart.getColumnModel().getColumn(1).setResizable(false);
@@ -105,7 +110,6 @@ public class DesktopApplication extends JFrame {
         table_cart.getColumnModel().getColumn(4).setResizable(false);
         table_cart.getColumnModel().getColumn(5).setResizable(false);
         table_cart.getColumnModel().getColumn(6).setResizable(false);
-        table_cart.getColumnModel().getColumn(7).setResizable(false);
 
         button_checkout.setText("Check Out");
         button_checkout.addActionListener(new java.awt.event.ActionListener() {
@@ -191,14 +195,70 @@ public class DesktopApplication extends JFrame {
     private void button_addtocartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_addtocartActionPerformed
         int selectedRow = table_search.getSelectedRow();
         Book bookToAdd = new Book();
-        Class cls;
-        table_search.getModel();
-//        int id; String isbn, title, publisher, author; int quantity; double price;
-        for (int i = 0; i < table_search.getModel().getColumnCount(); i++)
-        {
+        if (selectedRow != -1)
+            {
+            for (int i = 0; i < table_search.getModel().getColumnCount(); i++)
+            {
+                if (i == 0)
+                {
+                    System.out.println(table_search.getModel().getValueAt(selectedRow, i));
+                    bookToAdd._id = Integer.parseInt(table_search.getModel().getValueAt(selectedRow, i).toString());
+                }
+                else if (i == 1)
+                {
+                    bookToAdd._isbn = table_search.getModel().getValueAt(selectedRow, i).toString();
+                }
+                else if (i == 2)
+                {
+                    bookToAdd._title = table_search.getModel().getValueAt(selectedRow, i).toString();
+                }
+                else if (i == 3)
+                {
+                    bookToAdd._publisher = table_search.getModel().getValueAt(selectedRow, i).toString();
+                }
+                else if (i == 4)
+                {
+                    bookToAdd._authors = table_search.getModel().getValueAt(selectedRow, i).toString();
+                }
+                else if (i == 5)
+                {
+                    bookToAdd._quantity = Integer.parseInt(table_search.getModel().getValueAt(selectedRow, i).toString());
+                }
+                else
+                {
+                    bookToAdd._price = Double.parseDouble(table_search.getModel().getValueAt(selectedRow, i).toString());
+                }
+            }
+            manager.Cart().addToCart(bookToAdd);
+            UpdateCartTable();
         }
     }//GEN-LAST:event_button_addtocartActionPerformed
 
+    private void UpdateCartTable()
+    {
+        List<Book> books = manager.Cart().retrieveBooksFromCart();
+        DefaultTableModel dtm = (DefaultTableModel)table_cart.getModel();
+        Vector<Object> rowData;
+        // Clear table.
+        while (dtm.getRowCount() != 0)
+        {
+            dtm.removeRow(0);
+        }
+        // Repopulate.
+        for (Book b : books)
+        {
+            rowData = new Vector();
+            rowData.add(b._id);
+            rowData.add(b._isbn);
+            rowData.add(b._title);
+            rowData.add(b._publisher);
+            rowData.add(b._authors);
+            rowData.add(b._quantity);
+            rowData.add(b._price);
+            dtm.addRow(rowData);
+        }
+//        table_cart.setModel(dtm);
+    }
     /**
      * @param args the command line arguments
      */
