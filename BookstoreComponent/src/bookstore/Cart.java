@@ -53,4 +53,15 @@ public class Cart {
     {
         return books;
     }
+    
+    public int AmountOfBook(int bookId)
+    {
+        int a = 0;
+        for (Book b : books)
+        {
+            if (b._id == bookId)
+                a++;
+        }
+        return a;
+    }
 }

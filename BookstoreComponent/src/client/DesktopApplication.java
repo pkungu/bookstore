@@ -251,25 +251,41 @@ public class DesktopApplication extends JFrame {
     }//GEN-LAST:event_button_checkoutActionPerformed
 
     private void button_addtocartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_addtocartActionPerformed
-        if (AddToCartCheck())
+        if (table_search.getSelectedRow() != -1)
         {
-            AddToCartLogic();
-        }
-        else
-        {
-            JOptionPane.showMessageDialog(this, "Book out of stock.");
+            if (AddToCartCheck())
+            {
+                AddToCartLogic();
+            }
+            else
+            {
+                //JOptionPane.showMessageDialog(this, "Book out of stock.");
+            }
         }
     }//GEN-LAST:event_button_addtocartActionPerformed
 
     private boolean AddToCartCheck()
     {
         int selectedRow = table_search.getSelectedRow();
+        int selectedBookId = Integer.parseInt(table_search.getModel().getValueAt(selectedRow, 0).toString());
         int quantity =  Integer.parseInt(table_search.getModel().getValueAt(selectedRow, 5).toString());
+        int adjQuantity = quantity - manager.Cart().AmountOfBook(selectedBookId);
         if (quantity == 0)
         {
+            JOptionPane.showMessageDialog(this, "Book out of stock.");
+            return false;
+        }
+        else if (adjQuantity == 0)
+        {
+            JOptionPane.showMessageDialog(this, "There wouldn't be any more books. :)");
             return false;
         }
         else if (quantity < 5)
+        {
+            JOptionPane.showMessageDialog(this, "Low book stock warning.");
+            return true;
+        }
+        else if (adjQuantity < 5)
         {
             JOptionPane.showMessageDialog(this, "Low book stock warning.");
             return true;
