@@ -40,8 +40,6 @@
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="label_cart" min="-2" pref="120" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="173" max="-2" attributes="0"/>
-                      <Component id="label_debug" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="button_addtocart" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -49,6 +47,8 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="button_removefromcart" min="-2" pref="160" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="button_clearcart" min="-2" pref="95" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="label_total1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -83,7 +83,6 @@
                   </Group>
                   <Component id="button_search" pref="27" max="32767" attributes="0"/>
                   <Component id="button_addtocart" max="32767" attributes="0"/>
-                  <Component id="label_debug" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane2" min="-2" pref="151" max="-2" attributes="0"/>
@@ -93,6 +92,7 @@
                   <Component id="label_total1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="label_total2" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="button_removefromcart" alignment="0" max="32767" attributes="0"/>
+                  <Component id="button_clearcart" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -325,10 +325,16 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button_removefromcartActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="label_debug">
+    <Component class="javax.swing.JButton" name="button_clearcart">
       <Properties>
-        <Property name="text" type="java.lang.String" value="DEBUG: Quantity: x"/>
+        <Property name="text" type="java.lang.String" value="Clear Cart"/>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[73, 27]"/>
+        </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button_clearcartActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

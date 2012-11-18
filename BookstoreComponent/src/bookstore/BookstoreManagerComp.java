@@ -70,6 +70,31 @@ public class BookstoreManagerComp {
         }
     }
     
+    public void PurchaseBooksInCart()
+    {
+        for (Book b : Cart().retrieveBooksFromCart())
+        {
+            BookBought(b._id);
+        }
+    }
+    
+    private void BookBought(int bookId)
+    {
+        String sql = 
+                "update `books` "
+                + "set Quantity = Quantity - 1 "
+                + "where ID=" + bookId;
+        try
+        {
+            _prepStatement = _connection.prepareStatement(sql);
+            _prepStatement.executeUpdate();
+        }
+        catch (Exception ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+    }
+    
     //
     //  Connection Management Methods
     //

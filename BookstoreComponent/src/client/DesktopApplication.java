@@ -5,10 +5,10 @@
 package client;
 import javax.swing.*;
 import bookstore.*;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 /**
  *
@@ -50,7 +50,7 @@ public class DesktopApplication extends JFrame {
         label_total1 = new javax.swing.JLabel();
         label_total2 = new javax.swing.JLabel();
         button_removefromcart = new javax.swing.JButton();
-        label_debug = new javax.swing.JLabel();
+        button_clearcart = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -160,7 +160,13 @@ public class DesktopApplication extends JFrame {
             }
         });
 
-        label_debug.setText("DEBUG: Quantity: x");
+        button_clearcart.setText("Clear Cart");
+        button_clearcart.setPreferredSize(new java.awt.Dimension(73, 27));
+        button_clearcart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_clearcartActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -181,14 +187,14 @@ public class DesktopApplication extends JFrame {
                             .add(label_by, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                         .add(label_cart, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 120, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(173, 173, 173)
-                        .add(label_debug)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .add(button_addtocart)
                         .add(18, 18, 18)
                         .add(button_search, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 74, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(layout.createSequentialGroup()
                         .add(button_removefromcart, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 160, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(button_clearcart, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 95, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .add(label_total1)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -215,8 +221,7 @@ public class DesktopApplication extends JFrame {
                         .add(label_cart)
                         .add(0, 0, Short.MAX_VALUE))
                     .add(button_search, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
-                    .add(button_addtocart, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(label_debug, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .add(button_addtocart, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 151, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -224,7 +229,8 @@ public class DesktopApplication extends JFrame {
                     .add(button_checkout, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(label_total1)
                     .add(label_total2)
-                    .add(button_removefromcart, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .add(button_removefromcart, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(button_clearcart, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -236,10 +242,45 @@ public class DesktopApplication extends JFrame {
     }//GEN-LAST:event_button_searchActionPerformed
 
     private void button_checkoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_checkoutActionPerformed
-        // TODO add your handling code here:
+        manager.PurchaseBooksInCart();
+        manager.Cart().ClearCart();
+        UpdateCartTable();
+        // Rerun query to avoid more column checking logic.
+        Query();
+        JOptionPane.showMessageDialog(this, "Thanks!");
     }//GEN-LAST:event_button_checkoutActionPerformed
 
     private void button_addtocartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_addtocartActionPerformed
+        if (AddToCartCheck())
+        {
+            AddToCartLogic();
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this, "Book out of stock.");
+        }
+    }//GEN-LAST:event_button_addtocartActionPerformed
+
+    private boolean AddToCartCheck()
+    {
+        int selectedRow = table_search.getSelectedRow();
+        int quantity =  Integer.parseInt(table_search.getModel().getValueAt(selectedRow, 5).toString());
+        if (quantity == 0)
+        {
+            return false;
+        }
+        else if (quantity < 5)
+        {
+            JOptionPane.showMessageDialog(this, "Low book stock warning.");
+            return true;
+        }
+        else 
+        {
+            return true;
+        }
+    }
+    private void AddToCartLogic()
+    {
         int selectedRow = table_search.getSelectedRow();
         Book bookToAdd = new Book();
         if (selectedRow != -1)
@@ -279,8 +320,8 @@ public class DesktopApplication extends JFrame {
             manager.Cart().addToCart(bookToAdd);
             UpdateCartTable();
         }
-    }//GEN-LAST:event_button_addtocartActionPerformed
-
+    }
+    
     private void button_removefromcartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_removefromcartActionPerformed
 
         int selectedRow = table_cart.getSelectedRow();
@@ -290,6 +331,11 @@ public class DesktopApplication extends JFrame {
             UpdateCartTable();
         }
     }//GEN-LAST:event_button_removefromcartActionPerformed
+
+    private void button_clearcartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_clearcartActionPerformed
+        manager.Cart().ClearCart();
+        UpdateCartTable();
+    }//GEN-LAST:event_button_clearcartActionPerformed
 
     private void UpdateCartTable()
     {
@@ -315,7 +361,14 @@ public class DesktopApplication extends JFrame {
             dtm.addRow(rowData);
         }
         double total = manager.Cart().currentTotal();
-        label_total2.setText(Double.toString(total));
+        
+        label_total2.setText(Double.toString(roundTwoDecimals(total)));
+    }
+    
+    private double roundTwoDecimals(double d) 
+    {
+        DecimalFormat twoDForm = new DecimalFormat("#.##");
+        return Double.valueOf(twoDForm.format(d));
     }
     
     private void Query()
@@ -361,6 +414,7 @@ public class DesktopApplication extends JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton button_addtocart;
     private javax.swing.JButton button_checkout;
+    private javax.swing.JButton button_clearcart;
     private javax.swing.JButton button_removefromcart;
     private javax.swing.JButton button_search;
     private javax.swing.JComboBox dropdownmenu_search;
@@ -368,7 +422,6 @@ public class DesktopApplication extends JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel label_by;
     private javax.swing.JLabel label_cart;
-    private javax.swing.JLabel label_debug;
     private javax.swing.JLabel label_search;
     private javax.swing.JLabel label_total1;
     private javax.swing.JLabel label_total2;
