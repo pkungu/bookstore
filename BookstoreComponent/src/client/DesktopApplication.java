@@ -47,6 +47,8 @@ public class DesktopApplication extends JFrame {
         button_checkout = new javax.swing.JButton();
         label_cart = new javax.swing.JLabel();
         button_addtocart = new javax.swing.JButton();
+        label_total1 = new javax.swing.JLabel();
+        label_total2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -62,12 +64,27 @@ public class DesktopApplication extends JFrame {
 
             },
             new String [] {
-
+                "ID", "ISBN", "Title", "Publisher", "Authors", "Quantity", "Price"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         table_search.getTableHeader().setResizingAllowed(false);
         table_search.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(table_search);
+        table_search.getColumnModel().getColumn(0).setResizable(false);
+        table_search.getColumnModel().getColumn(1).setResizable(false);
+        table_search.getColumnModel().getColumn(2).setResizable(false);
+        table_search.getColumnModel().getColumn(3).setResizable(false);
+        table_search.getColumnModel().getColumn(4).setResizable(false);
+        table_search.getColumnModel().getColumn(5).setResizable(false);
+        table_search.getColumnModel().getColumn(6).setResizable(false);
         try
         {
             manager.QueryAllBooks(table_search);
@@ -128,6 +145,10 @@ public class DesktopApplication extends JFrame {
             }
         });
 
+        label_total1.setText("Total: $");
+
+        label_total2.setText("0.00");
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -153,6 +174,10 @@ public class DesktopApplication extends JFrame {
                         .add(button_search, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 74, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(layout.createSequentialGroup()
                         .add(0, 0, Short.MAX_VALUE)
+                        .add(label_total1)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(label_total2)
+                        .add(37, 37, 37)
                         .add(button_checkout)))
                 .addContainerGap())
         );
@@ -176,7 +201,10 @@ public class DesktopApplication extends JFrame {
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 151, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(button_checkout, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(button_checkout, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+                    .add(label_total1)
+                    .add(label_total2))
                 .addContainerGap())
         );
 
@@ -184,8 +212,8 @@ public class DesktopApplication extends JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void button_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_searchActionPerformed
-
-        manager.QueryAllBooks(table_search);
+        Query();
+        //manager.QueryAllBooks(table_search);
     }//GEN-LAST:event_button_searchActionPerformed
 
     private void button_checkoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_checkoutActionPerformed
@@ -259,6 +287,13 @@ public class DesktopApplication extends JFrame {
         }
 //        table_cart.setModel(dtm);
     }
+    
+    private void Query()
+    {
+        String searchText = textfield_search.getText();
+        String byText = dropdownmenu_search.getModel().getSelectedItem().toString();
+        manager.Query(table_search, searchText, byText);
+    }
     /**
      * @param args the command line arguments
      */
@@ -303,6 +338,8 @@ public class DesktopApplication extends JFrame {
     private javax.swing.JLabel label_by;
     private javax.swing.JLabel label_cart;
     private javax.swing.JLabel label_search;
+    private javax.swing.JLabel label_total1;
+    private javax.swing.JLabel label_total2;
     private javax.swing.JTable table_cart;
     private javax.swing.JTable table_search;
     private javax.swing.JTextField textfield_search;

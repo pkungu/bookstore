@@ -43,6 +43,31 @@ public class BookstoreManagerComp {
         catch (SQLException ex) {}
     }
     
+    public void Query(JTable j, String sT, String bT)
+    {
+        String searchText = sT;
+        String byText = bT;
+        String sql;
+        if (searchText.equals(""))
+        {
+            sql = "select " + byText + " from `books`";
+        }
+        else
+        {
+            sql = "select * from `books` "
+                    + "where " + byText + 
+                    " like '%" + searchText +"%'";
+        }
+        try
+        {
+            j.setModel(getResultSetTableModel(sql));
+        }
+        catch (SQLException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+    }
+    
     //
     //  Connection Management Methods
     //
