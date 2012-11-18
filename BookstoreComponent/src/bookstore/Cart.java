@@ -29,17 +29,22 @@ public class Cart {
         }
     }
     
-    public void removeFromCart(Book b)
+    void removeFromCart(Book b)
     {
         books.remove(b);
     }
     
-    public void removeFromCart(List<Book> toRemove)
+    public void RemoveBook(int location)
+    {
+        books.remove(location);
+    }
+    
+    void removeFromCart(List<Book> toRemove)
     {
         books.removeAll(toRemove);
     }
     
-    public void clearCart()
+    public void ClearCart()
     {
         books.removeAll(books);
     }

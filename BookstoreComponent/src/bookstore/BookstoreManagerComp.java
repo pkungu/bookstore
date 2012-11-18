@@ -34,6 +34,7 @@ public class BookstoreManagerComp {
     //  Querying Methods
     //
     
+    // Test.
     public void QueryAllBooks(JTable j)
     {
         try
@@ -43,6 +44,7 @@ public class BookstoreManagerComp {
         catch (SQLException ex) {}
     }
     
+    // 
     public void Query(JTable j, String sT, String bT)
     {
         String searchText = sT;
@@ -50,7 +52,7 @@ public class BookstoreManagerComp {
         String sql;
         if (searchText.equals(""))
         {
-            sql = "select " + byText + " from `books`";
+            sql = "select * from `books`";
         }
         else
         {
