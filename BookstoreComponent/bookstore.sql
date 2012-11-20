@@ -50,6 +50,8 @@ INSERT INTO `books` (`id`, `isbn`, `title`, `publisher`, `authors`, `count`, `pr
 (3, '0000000000015', 'Intro TO SWE', 'Oxford Press', 'Barbara Thomas', 15, 59.99);
 INSERT INTO `books` (`id`, `isbn`, `title`, `publisher`, `authors`, `count`, `price`) VALUES
 (4, '9781401820497', 'Advanced Engine Performance', 'Thomson', 'Chri Shortt', 5, 29.99);
+INSERT INTO `books` (`id`, `isbn`, `title`, `publisher`, `authors`, `count`, `price`) VALUES
+(5, '9780132158718', 'A discipline of Programming', 'Prentice Hall', 'Edsger Dijkstra', 5, 199.99);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
