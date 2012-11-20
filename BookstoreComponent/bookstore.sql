@@ -51,7 +51,11 @@ INSERT INTO `books` (`id`, `isbn`, `title`, `publisher`, `authors`, `count`, `pr
 INSERT INTO `books` (`id`, `isbn`, `title`, `publisher`, `authors`, `count`, `price`) VALUES
 (4, '9781401820497', 'Advanced Engine Performance', 'Thomson', 'Chri Shortt', 5, 29.99);
 INSERT INTO `books` (`id`, `isbn`, `title`, `publisher`, `authors`, `count`, `price`) VALUES
-(5, '9780132158718', 'A discipline of Programming', 'Prentice Hall', 'Edsger Dijkstra', 5, 199.99);
+(5, '9780132158718', 'A discipline of Programming', 'Prentice Hall', 'Edsger Dijkstra', 25, 199.99);
+INSERT INTO `books` (`id`, `isbn`, `title`, `publisher`, `authors`, `count`, `price`) VALUES
+(6, '9780262033848', 'Introduction to Algorithm', 'The MIT Press', 'Thomas H. Cormen', 15, 48.99);
+INSERT INTO `books` (`id`, `isbn`, `title`, `publisher`, `authors`, `count`, `price`) VALUES
+(7, '978-0123704900', 'Computer Architecture', 'Morgan Kaufmann', 'John L.Hennessy', 6, 64.99);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
