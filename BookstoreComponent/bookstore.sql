@@ -55,7 +55,13 @@ INSERT INTO `books` (`id`, `isbn`, `title`, `publisher`, `authors`, `count`, `pr
 INSERT INTO `books` (`id`, `isbn`, `title`, `publisher`, `authors`, `count`, `price`) VALUES
 (6, '9780262033848', 'Introduction to Algorithm', 'The MIT Press', 'Thomas H. Cormen', 15, 48.99);
 INSERT INTO `books` (`id`, `isbn`, `title`, `publisher`, `authors`, `count`, `price`) VALUES
-(7, '978-0123704900', 'Computer Architecture', 'Morgan Kaufmann', 'John L.Hennessy', 6, 64.99);
+(7, '9780123704900', 'Computer Architecture', 'Morgan Kaufmann', 'John L.Hennessy', 6, 64.99);
+INSERT INTO `books` (`id`, `isbn`, `title`, `publisher`, `authors`, `count`, `price`) VALUES
+(8, '9780201633610', 'Design Patterns', 'Addison Wesley, 'John Helm', 8, 65.99);
+INSERT INTO `books` (`id`, `isbn`, `title`, `publisher`, `authors`, `count`, `price`) VALUES
+(9, '978-0321356680', 'Effective Java', 'Addison Wesley, 'Joshua Bloch, 10, 78.99);
+INSERT INTO `books` (`id`, `isbn`, `title`, `publisher`, `authors`, `count`, `price`) VALUES
+(10, '9780321356665', 'Component Development', 'Pierce, 'Kai Qian, 10, 99.99);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
