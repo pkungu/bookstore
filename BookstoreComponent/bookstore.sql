@@ -46,6 +46,8 @@ INSERT INTO `books` (`id`, `isbn`, `title`, `publisher`, `authors`, `count`, `pr
 (1, '0000000000013', 'The First Book', 'Publisher', 'Buk Riter', 10, 49.99);
 INSERT INTO `books` (`id`, `isbn`, `title`, `publisher`, `authors`, `count`, `price`) VALUES
 (2, '0000000000014', 'Advanced Database Management', 'Addison Wesley', 'Orlando Karam', 19, 69.99);
+INSERT INTO `books` (`id`, `isbn`, `title`, `publisher`, `authors`, `count`, `price`) VALUES
+(3, '0000000000015', 'Intro TO SWE', 'Oxford Press', 'Barbara Thomas', 15, 59.99);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
